@@ -75,11 +75,11 @@ function Page() {
   ], [transactions]);
 
   if (loading) {
-    return <ProtectedRoute roles={["admin","teacher"]}><AppShell section="admin"><LoadingSkeleton variant="card" count={4} /></AppShell></ProtectedRoute>;
+    return <ProtectedRoute roles={["admin"]}><AppShell section="admin"><LoadingSkeleton variant="card" count={4} /></AppShell></ProtectedRoute>;
   }
 
   return (
-    <ProtectedRoute roles={["admin","teacher"]}>
+    <ProtectedRoute roles={["admin"]}>
       <AppShell section="admin">
         <div className="space-y-5">
           <motion.div variants={fadeUp} initial="hidden" animate="show" transition={{ delay: 0 }}>

@@ -58,6 +58,15 @@ export async function getNotifications(): Promise<Notification[]> {
   throw new Error("Real API not implemented");
 }
 
+export async function readAllNotifications() {
+  if (USE_MOCK) {
+    await delay(200);
+    mockNotifications.forEach((n) => { n.is_read = true; });
+    return { ok: true };
+  }
+  throw new Error("Real API not implemented");
+}
+
 export async function getSettings(): Promise<Settings> {
   if (USE_MOCK) {
     await delay(200);

@@ -1,11 +1,13 @@
 import type { ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { LogOut, LayoutDashboard, Coins, ShoppingBag, Package, Trophy, Bell, User, BarChart3, Users, Receipt, Settings, Award, FileBarChart, Tags } from "lucide-react";
+import { LogOut, LayoutDashboard, Coins, ShoppingBag, Package, Trophy, Bell, User, ChartBar as BarChart3, Users, Receipt, Settings, Award, ChartBar as FileBarChart, Tags } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { Avatar } from "@/components/ui/avatar";
 import { CoinBadge } from "@/components/shared/CoinBadge";
 import { LevelBadge } from "@/components/shared/LevelBadge";
 import { cn } from "@/lib/utils";
+import { getNotifications } from "@/api/student";
+import { useEffect, useState } from "react";
 
 const studentNav = [
   { to: "/student/dashboard", label: "Главная", icon: LayoutDashboard },
@@ -35,7 +37,23 @@ export function AppShell({ section, children }: { section: "student" | "admin"; 
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const path = useRouterState({ select: (s) => s.location.pathname });
-  const items = section === "student" ? studentNav : adminNav;
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  // Teacher can only see users and coins
+  const teacherAllowedRoutes = ["/admin/users", "/admin/coins"];
+  const isTeacher = user?.role === "teacher";
+  const fullAdminNav = section === "admin" ? adminNav : [];
+  const items = section === "student"
+    ? studentNav
+    : isTeacher
+      ? fullAdminNav.filter((it) => teacherAllowedRoutes.includes(it.to))
+      : fullAdminNav;
+
+  useEffect(() => {
+    if (section === "student") {
+      getNotifications().then((n) => setUnreadCount(n.filter((x) => !x.is_read).length));
+    }
+  }, [section, path]);
 
   const handleLogout = () => {
     logout();
@@ -47,7 +65,7 @@ export function AppShell({ section, children }: { section: "student" | "admin"; 
       {/* Sidebar */}
       <aside className="hidden md:flex w-60 shrink-0 flex-col border-r border-border bg-bg-secondary">
         <div className="px-5 py-5 border-b border-border">
-          <Link to={section === "student" ? "/student/dashboard" : "/admin/dashboard"} className="flex items-center gap-2">
+          <Link to={section === "student" ? "/student/dashboard" : isTeacher ? "/admin/coins" : "/admin/dashboard"} className="flex items-center gap-2">
             <div className="rounded-lg bg-gradient-to-br from-xp to-coin p-1.5">
               <Coins size={18} className="text-white" />
             </div>
@@ -60,6 +78,7 @@ export function AppShell({ section, children }: { section: "student" | "admin"; 
         <nav className="flex-1 overflow-y-auto p-2">
           {items.map((it) => {
             const active = path === it.to;
+            const isNotif = section === "student" && it.to === "/student/notifications";
             return (
               <Link
                 key={it.to}
@@ -73,6 +92,11 @@ export function AppShell({ section, children }: { section: "student" | "admin"; 
               >
                 <it.icon size={18} />
                 <span>{it.label}</span>
+                {isNotif && unreadCount > 0 && (
+                  <span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-spend px-1.5 text-[10px] font-bold text-white">
+                    {unreadCount}
+                  </span>
+                )}
               </Link>
             );
           })}
