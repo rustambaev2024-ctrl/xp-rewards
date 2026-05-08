@@ -1,22 +1,42 @@
-import * as React from "react";
-
+import { forwardRef, type InputHTMLAttributes, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
-  ({ className, type, ...props }, ref) => {
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+  error?: string;
+  icon?: ReactNode;
+}
+
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ className, label, error, icon, id, ...props }, ref) => {
+    const inputId = id || props.name;
     return (
-      <input
-        type={type}
-        className={cn(
-          "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-          className,
+      <div className="w-full">
+        {label && (
+          <label htmlFor={inputId} className="mb-1.5 block text-sm font-medium text-text-secondary">
+            {label}
+          </label>
         )}
-        ref={ref}
-        {...props}
-      />
+        <div className="relative">
+          {icon && (
+            <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-muted">{icon}</span>
+          )}
+          <input
+            ref={ref}
+            id={inputId}
+            className={cn(
+              "w-full h-11 rounded-xl bg-bg-elevated border border-border px-4 text-text-primary placeholder:text-text-muted",
+              "focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors",
+              icon && "pl-10",
+              error && "border-spend focus:ring-spend",
+              className
+            )}
+            {...props}
+          />
+        </div>
+        {error && <p className="mt-1.5 text-xs text-spend">{error}</p>}
+      </div>
     );
-  },
+  }
 );
 Input.displayName = "Input";
-
-export { Input };
