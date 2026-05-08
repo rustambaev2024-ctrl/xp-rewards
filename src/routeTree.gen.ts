@@ -9,38 +9,349 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as StudentTransactionsRouteImport } from './routes/student/transactions'
+import { Route as StudentStoreRouteImport } from './routes/student/store'
+import { Route as StudentProfileRouteImport } from './routes/student/profile'
+import { Route as StudentOrdersRouteImport } from './routes/student/orders'
+import { Route as StudentNotificationsRouteImport } from './routes/student/notifications'
+import { Route as StudentLeaderboardRouteImport } from './routes/student/leaderboard'
+import { Route as StudentDashboardRouteImport } from './routes/student/dashboard'
+import { Route as StudentCoinsRouteImport } from './routes/student/coins'
+import { Route as StudentAchievementsRouteImport } from './routes/student/achievements'
+import { Route as AdminUsersRouteImport } from './routes/admin/users'
+import { Route as AdminTransactionsRouteImport } from './routes/admin/transactions'
+import { Route as AdminStoreRouteImport } from './routes/admin/store'
+import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
+import { Route as AdminReportsRouteImport } from './routes/admin/reports'
+import { Route as AdminOrdersRouteImport } from './routes/admin/orders'
+import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
+import { Route as AdminCoinsRouteImport } from './routes/admin/coins'
+import { Route as AdminCategoriesRouteImport } from './routes/admin/categories'
+import { Route as AdminAchievementsRouteImport } from './routes/admin/achievements'
 
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StudentTransactionsRoute = StudentTransactionsRouteImport.update({
+  id: '/student/transactions',
+  path: '/student/transactions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentStoreRoute = StudentStoreRouteImport.update({
+  id: '/student/store',
+  path: '/student/store',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentProfileRoute = StudentProfileRouteImport.update({
+  id: '/student/profile',
+  path: '/student/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentOrdersRoute = StudentOrdersRouteImport.update({
+  id: '/student/orders',
+  path: '/student/orders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentNotificationsRoute = StudentNotificationsRouteImport.update({
+  id: '/student/notifications',
+  path: '/student/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentLeaderboardRoute = StudentLeaderboardRouteImport.update({
+  id: '/student/leaderboard',
+  path: '/student/leaderboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentDashboardRoute = StudentDashboardRouteImport.update({
+  id: '/student/dashboard',
+  path: '/student/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentCoinsRoute = StudentCoinsRouteImport.update({
+  id: '/student/coins',
+  path: '/student/coins',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentAchievementsRoute = StudentAchievementsRouteImport.update({
+  id: '/student/achievements',
+  path: '/student/achievements',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminTransactionsRoute = AdminTransactionsRouteImport.update({
+  id: '/admin/transactions',
+  path: '/admin/transactions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminStoreRoute = AdminStoreRouteImport.update({
+  id: '/admin/store',
+  path: '/admin/store',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/admin/settings',
+  path: '/admin/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminReportsRoute = AdminReportsRouteImport.update({
+  id: '/admin/reports',
+  path: '/admin/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminOrdersRoute = AdminOrdersRouteImport.update({
+  id: '/admin/orders',
+  path: '/admin/orders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/admin/dashboard',
+  path: '/admin/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCoinsRoute = AdminCoinsRouteImport.update({
+  id: '/admin/coins',
+  path: '/admin/coins',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
+  id: '/admin/categories',
+  path: '/admin/categories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAchievementsRoute = AdminAchievementsRouteImport.update({
+  id: '/admin/achievements',
+  path: '/admin/achievements',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/admin/achievements': typeof AdminAchievementsRoute
+  '/admin/categories': typeof AdminCategoriesRoute
+  '/admin/coins': typeof AdminCoinsRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/orders': typeof AdminOrdersRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/store': typeof AdminStoreRoute
+  '/admin/transactions': typeof AdminTransactionsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/student/achievements': typeof StudentAchievementsRoute
+  '/student/coins': typeof StudentCoinsRoute
+  '/student/dashboard': typeof StudentDashboardRoute
+  '/student/leaderboard': typeof StudentLeaderboardRoute
+  '/student/notifications': typeof StudentNotificationsRoute
+  '/student/orders': typeof StudentOrdersRoute
+  '/student/profile': typeof StudentProfileRoute
+  '/student/store': typeof StudentStoreRoute
+  '/student/transactions': typeof StudentTransactionsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/admin/achievements': typeof AdminAchievementsRoute
+  '/admin/categories': typeof AdminCategoriesRoute
+  '/admin/coins': typeof AdminCoinsRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/orders': typeof AdminOrdersRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/store': typeof AdminStoreRoute
+  '/admin/transactions': typeof AdminTransactionsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/student/achievements': typeof StudentAchievementsRoute
+  '/student/coins': typeof StudentCoinsRoute
+  '/student/dashboard': typeof StudentDashboardRoute
+  '/student/leaderboard': typeof StudentLeaderboardRoute
+  '/student/notifications': typeof StudentNotificationsRoute
+  '/student/orders': typeof StudentOrdersRoute
+  '/student/profile': typeof StudentProfileRoute
+  '/student/store': typeof StudentStoreRoute
+  '/student/transactions': typeof StudentTransactionsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/admin/achievements': typeof AdminAchievementsRoute
+  '/admin/categories': typeof AdminCategoriesRoute
+  '/admin/coins': typeof AdminCoinsRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/orders': typeof AdminOrdersRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/store': typeof AdminStoreRoute
+  '/admin/transactions': typeof AdminTransactionsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/student/achievements': typeof StudentAchievementsRoute
+  '/student/coins': typeof StudentCoinsRoute
+  '/student/dashboard': typeof StudentDashboardRoute
+  '/student/leaderboard': typeof StudentLeaderboardRoute
+  '/student/notifications': typeof StudentNotificationsRoute
+  '/student/orders': typeof StudentOrdersRoute
+  '/student/profile': typeof StudentProfileRoute
+  '/student/store': typeof StudentStoreRoute
+  '/student/transactions': typeof StudentTransactionsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/reset-password'
+    | '/admin/achievements'
+    | '/admin/categories'
+    | '/admin/coins'
+    | '/admin/dashboard'
+    | '/admin/orders'
+    | '/admin/reports'
+    | '/admin/settings'
+    | '/admin/store'
+    | '/admin/transactions'
+    | '/admin/users'
+    | '/student/achievements'
+    | '/student/coins'
+    | '/student/dashboard'
+    | '/student/leaderboard'
+    | '/student/notifications'
+    | '/student/orders'
+    | '/student/profile'
+    | '/student/store'
+    | '/student/transactions'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/reset-password'
+    | '/admin/achievements'
+    | '/admin/categories'
+    | '/admin/coins'
+    | '/admin/dashboard'
+    | '/admin/orders'
+    | '/admin/reports'
+    | '/admin/settings'
+    | '/admin/store'
+    | '/admin/transactions'
+    | '/admin/users'
+    | '/student/achievements'
+    | '/student/coins'
+    | '/student/dashboard'
+    | '/student/leaderboard'
+    | '/student/notifications'
+    | '/student/orders'
+    | '/student/profile'
+    | '/student/store'
+    | '/student/transactions'
+  id:
+    | '__root__'
+    | '/'
+    | '/login'
+    | '/register'
+    | '/reset-password'
+    | '/admin/achievements'
+    | '/admin/categories'
+    | '/admin/coins'
+    | '/admin/dashboard'
+    | '/admin/orders'
+    | '/admin/reports'
+    | '/admin/settings'
+    | '/admin/store'
+    | '/admin/transactions'
+    | '/admin/users'
+    | '/student/achievements'
+    | '/student/coins'
+    | '/student/dashboard'
+    | '/student/leaderboard'
+    | '/student/notifications'
+    | '/student/orders'
+    | '/student/profile'
+    | '/student/store'
+    | '/student/transactions'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  AdminAchievementsRoute: typeof AdminAchievementsRoute
+  AdminCategoriesRoute: typeof AdminCategoriesRoute
+  AdminCoinsRoute: typeof AdminCoinsRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminOrdersRoute: typeof AdminOrdersRoute
+  AdminReportsRoute: typeof AdminReportsRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminStoreRoute: typeof AdminStoreRoute
+  AdminTransactionsRoute: typeof AdminTransactionsRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+  StudentAchievementsRoute: typeof StudentAchievementsRoute
+  StudentCoinsRoute: typeof StudentCoinsRoute
+  StudentDashboardRoute: typeof StudentDashboardRoute
+  StudentLeaderboardRoute: typeof StudentLeaderboardRoute
+  StudentNotificationsRoute: typeof StudentNotificationsRoute
+  StudentOrdersRoute: typeof StudentOrdersRoute
+  StudentProfileRoute: typeof StudentProfileRoute
+  StudentStoreRoute: typeof StudentStoreRoute
+  StudentTransactionsRoute: typeof StudentTransactionsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +359,166 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/student/transactions': {
+      id: '/student/transactions'
+      path: '/student/transactions'
+      fullPath: '/student/transactions'
+      preLoaderRoute: typeof StudentTransactionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student/store': {
+      id: '/student/store'
+      path: '/student/store'
+      fullPath: '/student/store'
+      preLoaderRoute: typeof StudentStoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student/profile': {
+      id: '/student/profile'
+      path: '/student/profile'
+      fullPath: '/student/profile'
+      preLoaderRoute: typeof StudentProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student/orders': {
+      id: '/student/orders'
+      path: '/student/orders'
+      fullPath: '/student/orders'
+      preLoaderRoute: typeof StudentOrdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student/notifications': {
+      id: '/student/notifications'
+      path: '/student/notifications'
+      fullPath: '/student/notifications'
+      preLoaderRoute: typeof StudentNotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student/leaderboard': {
+      id: '/student/leaderboard'
+      path: '/student/leaderboard'
+      fullPath: '/student/leaderboard'
+      preLoaderRoute: typeof StudentLeaderboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student/dashboard': {
+      id: '/student/dashboard'
+      path: '/student/dashboard'
+      fullPath: '/student/dashboard'
+      preLoaderRoute: typeof StudentDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student/coins': {
+      id: '/student/coins'
+      path: '/student/coins'
+      fullPath: '/student/coins'
+      preLoaderRoute: typeof StudentCoinsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student/achievements': {
+      id: '/student/achievements'
+      path: '/student/achievements'
+      fullPath: '/student/achievements'
+      preLoaderRoute: typeof StudentAchievementsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/transactions': {
+      id: '/admin/transactions'
+      path: '/admin/transactions'
+      fullPath: '/admin/transactions'
+      preLoaderRoute: typeof AdminTransactionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/store': {
+      id: '/admin/store'
+      path: '/admin/store'
+      fullPath: '/admin/store'
+      preLoaderRoute: typeof AdminStoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/admin/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/reports': {
+      id: '/admin/reports'
+      path: '/admin/reports'
+      fullPath: '/admin/reports'
+      preLoaderRoute: typeof AdminReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/orders': {
+      id: '/admin/orders'
+      path: '/admin/orders'
+      fullPath: '/admin/orders'
+      preLoaderRoute: typeof AdminOrdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/coins': {
+      id: '/admin/coins'
+      path: '/admin/coins'
+      fullPath: '/admin/coins'
+      preLoaderRoute: typeof AdminCoinsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/categories': {
+      id: '/admin/categories'
+      path: '/admin/categories'
+      fullPath: '/admin/categories'
+      preLoaderRoute: typeof AdminCategoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/achievements': {
+      id: '/admin/achievements'
+      path: '/admin/achievements'
+      fullPath: '/admin/achievements'
+      preLoaderRoute: typeof AdminAchievementsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  AdminAchievementsRoute: AdminAchievementsRoute,
+  AdminCategoriesRoute: AdminCategoriesRoute,
+  AdminCoinsRoute: AdminCoinsRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
+  AdminOrdersRoute: AdminOrdersRoute,
+  AdminReportsRoute: AdminReportsRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminStoreRoute: AdminStoreRoute,
+  AdminTransactionsRoute: AdminTransactionsRoute,
+  AdminUsersRoute: AdminUsersRoute,
+  StudentAchievementsRoute: StudentAchievementsRoute,
+  StudentCoinsRoute: StudentCoinsRoute,
+  StudentDashboardRoute: StudentDashboardRoute,
+  StudentLeaderboardRoute: StudentLeaderboardRoute,
+  StudentNotificationsRoute: StudentNotificationsRoute,
+  StudentOrdersRoute: StudentOrdersRoute,
+  StudentProfileRoute: StudentProfileRoute,
+  StudentStoreRoute: StudentStoreRoute,
+  StudentTransactionsRoute: StudentTransactionsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
