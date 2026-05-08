@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import { formatNumber } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { ArrowLeft, Lock, Calendar, Coins, Ban } from "lucide-react";
 import confetti from "canvas-confetti";
@@ -212,17 +213,17 @@ function Page() {
               <div className="rounded-xl bg-bg-elevated p-3 text-sm">
                 <div className="flex justify-between">
                   <span className="text-text-secondary">Текущий баланс</span>
-                  <span className="font-mono tabular-nums text-text-primary">{user.balance.toLocaleString("ru-RU")}</span>
+                  <span className="font-mono tabular-nums text-text-primary">{formatNumber(user.balance)}</span>
                 </div>
                 <div className="flex justify-between mt-1">
                   <span className="text-text-secondary">Списание</span>
-                  <span className="font-mono tabular-nums text-spend">-{product.price.toLocaleString("ru-RU")}</span>
+                  <span className="font-mono tabular-nums text-spend">-{formatNumber(product.price)}</span>
                 </div>
                 <div className="border-t border-border my-2" />
                 <div className="flex justify-between">
                   <span className="text-text-secondary font-medium">Баланс после</span>
                   <span className="font-mono tabular-nums font-bold text-coin">
-                    {(user.balance - product.price).toLocaleString("ru-RU")}
+                    {formatNumber(user.balance - product.price)}
                   </span>
                 </div>
               </div>

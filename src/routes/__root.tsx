@@ -124,7 +124,19 @@ function RootComponent() {
             </motion.div>
           </AnimatePresence>
         </Suspense>
-        <Toaster theme="dark" position="bottom-right" richColors />
+        <Toaster
+          theme="dark"
+          position="bottom-right"
+          richColors
+          duration={3000}
+          toastOptions={{
+            className: "text-sm",
+            success: { duration: 3000 },
+            error: { duration: 5000 },
+            info: { duration: 3000 },
+            warning: { duration: 4000 },
+          }}
+        />
       </AuthProvider>
     </QueryClientProvider>
   );

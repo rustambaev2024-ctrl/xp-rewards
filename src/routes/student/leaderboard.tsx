@@ -34,7 +34,7 @@ function Page() {
   const isInTop10 = myEntry && myEntry.rank <= 10;
 
   if (loading || !user) {
-    return <ProtectedRoute roles={["student"]}><AppShell section="student"><LoadingSkeleton variant="card" count={4} /></AppShell></ProtectedRoute>;
+    return <ProtectedRoute roles={["student"]}><AppShell section="student"><LoadingSkeleton variant="podium" count={1} /></AppShell></ProtectedRoute>;
   }
 
   return (

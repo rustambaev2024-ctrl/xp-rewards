@@ -17,6 +17,7 @@ import { LoadingSkeleton } from "@/components/shared/LoadingSkeleton";
 import { toast } from "@/components/ui/Toast";
 import { getUsers, awardCoins, deductCoins, toggleUserActive } from "@/api/admin";
 import type { User, Role } from "@/types";
+import { formatRelativeTime } from "@/lib/utils";
 
 export const Route = createFileRoute("/admin/users")({
   component: Page,
@@ -100,7 +101,7 @@ function Page() {
   };
 
   if (loading) {
-    return <ProtectedRoute roles={["admin","teacher"]}><AppShell section="admin"><LoadingSkeleton variant="card" count={3} /></AppShell></ProtectedRoute>;
+    return <ProtectedRoute roles={["admin","teacher"]}><AppShell section="admin"><LoadingSkeleton variant="table-row" count={5} columns={7} /></AppShell></ProtectedRoute>;
   }
 
   return (
@@ -169,7 +170,7 @@ function Page() {
                             <td className="p-3">
                               <Badge variant={u.is_active ? "earn" : "spend"}>{u.is_active ? "Активен" : "Заблокирован"}</Badge>
                             </td>
-                            <td className="p-3 text-text-muted text-xs">{new Date(u.created_at).toLocaleDateString("ru-RU")}</td>
+                            <td className="p-3 text-text-muted text-xs">{formatRelativeTime(u.created_at)}</td>
                             <td className="p-3">
                               <div className="flex items-center gap-1">
                                 <button onClick={() => openCoinModal(u, "award")} className="p-1.5 rounded-lg hover:bg-earn/10 text-earn transition-colors" title="Начислить монеты"><Plus size={14} /></button>

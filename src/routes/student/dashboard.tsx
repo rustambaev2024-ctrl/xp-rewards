@@ -13,6 +13,7 @@ import { LoadingSkeleton } from "@/components/shared/LoadingSkeleton";
 import { useAuth } from "@/context/AuthContext";
 import { getTransactions, getOrders, getAchievements } from "@/api/student";
 import type { Transaction, Order, Achievement, TxType } from "@/types";
+import { formatRelativeTime } from "@/lib/utils";
 import { useEffect, useState, useMemo } from "react";
 
 export const Route = createFileRoute("/student/dashboard")({
@@ -50,10 +51,6 @@ const statusVariant: Record<string, "new" | "confirmed" | "delivered" | "cancell
   cancelled: "cancelled",
 };
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("ru-RU", { day: "numeric", month: "short" });
-}
-
 function Page() {
   const { user } = useAuth();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -84,7 +81,7 @@ function Page() {
     return (
       <ProtectedRoute roles={["student"]}>
         <AppShell section="student">
-          <LoadingSkeleton variant="card" count={4} />
+          <LoadingSkeleton variant="hero" count={1} />
         </AppShell>
       </ProtectedRoute>
     );
@@ -144,7 +141,7 @@ function Page() {
                           </span>
                           <div className="flex-1 min-w-0">
                             <p className="text-sm text-text-primary truncate">{t.reason}</p>
-                            <p className="text-xs text-text-muted">{formatDate(t.created_at)}</p>
+                            <p className="text-xs text-text-muted">{formatRelativeTime(t.created_at)}</p>
                           </div>
                           <Badge variant={txVariant[t.type]}>
                             {t.type === "earn" ? "+" : t.type === "penalty" ? "-" : "-"}
@@ -179,7 +176,7 @@ function Page() {
                           </span>
                           <div className="flex-1 min-w-0">
                             <p className="text-sm text-text-primary truncate">{o.product.name}</p>
-                            <p className="text-xs text-text-muted">{formatDate(o.created_at)}</p>
+                            <p className="text-xs text-text-muted">{formatRelativeTime(o.created_at)}</p>
                           </div>
                           <Badge variant={statusVariant[o.status]}>{statusLabel[o.status]}</Badge>
                         </div>

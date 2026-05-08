@@ -15,7 +15,8 @@ function Index() {
       </div>
     );
   }
-  if (!isAuthenticated) return <Navigate to="/login" />;
-  if (isAdmin || isTeacher) return <Navigate to="/admin/dashboard" />;
-  return <Navigate to="/student/dashboard" />;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (isTeacher) return <Navigate to="/admin/coins" replace />;
+  if (isAdmin) return <Navigate to="/admin/dashboard" replace />;
+  return <Navigate to="/student/dashboard" replace />;
 }

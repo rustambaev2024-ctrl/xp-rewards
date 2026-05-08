@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
+import { formatRelativeTime } from "@/lib/utils";
 import { useEffect, useState, useMemo } from "react";
 import { Coins, ShoppingBag, Award, Bell as BellIcon, CheckCheck } from "lucide-react";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
@@ -24,21 +25,6 @@ const typeConfig: Record<string, { icon: React.ReactNode; color: string }> = {
   achievement: { icon: <Award size={18} />, color: "text-xp" },
   system: { icon: <BellIcon size={18} />, color: "text-text-muted" },
 };
-
-function relativeTime(iso: string) {
-  const now = new Date();
-  const date = new Date(iso);
-  const diffMs = now.getTime() - date.getTime();
-  const minutes = Math.floor(diffMs / 60000);
-  if (minutes < 1) return "только что";
-  if (minutes < 60) return `${minutes} мин назад`;
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours} ч назад`;
-  const days = Math.floor(hours / 24);
-  if (days === 1) return "вчера";
-  if (days < 7) return `${days} дн назад`;
-  return date.toLocaleDateString("ru-RU", { day: "numeric", month: "short" });
-}
 
 function Page() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -111,7 +97,7 @@ function Page() {
                           <p className={`text-sm ${n.is_read ? "text-text-secondary" : "text-text-primary font-medium"}`}>
                             {n.text}
                           </p>
-                          <p className="text-xs text-text-muted mt-0.5">{relativeTime(n.created_at)}</p>
+                          <p className="text-xs text-text-muted mt-0.5">{formatRelativeTime(n.created_at)}</p>
                         </div>
                         {!n.is_read && (
                           <span className="h-2 w-2 rounded-full bg-xp shrink-0 mt-1.5" />

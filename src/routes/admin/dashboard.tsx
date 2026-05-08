@@ -12,6 +12,7 @@ import { CoinBadge } from "@/components/shared/CoinBadge";
 import { LoadingSkeleton } from "@/components/shared/LoadingSkeleton";
 import { getUsers, getAdminTransactions, getAdminOrders, getAdminProducts } from "@/api/admin";
 import type { Transaction, Order, User, Product, TxType } from "@/types";
+import { formatNumber, formatRelativeTime } from "@/lib/utils";
 
 export const Route = createFileRoute("/admin/dashboard")({
   component: Page,
@@ -28,10 +29,6 @@ const statusVariant: Record<string, "new" | "confirmed" | "delivered" | "cancell
 const statusLabel: Record<string, string> = {
   new: "В обработке", confirmed: "Подтверждён", delivered: "Выдан", cancelled: "Отменён",
 };
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("ru-RU", { day: "numeric", month: "short" });
-}
 
 function Page() {
   const [users, setUsers] = useState<User[]>([]);
@@ -75,7 +72,7 @@ function Page() {
   ], [transactions]);
 
   if (loading) {
-    return <ProtectedRoute roles={["admin"]}><AppShell section="admin"><LoadingSkeleton variant="card" count={4} /></AppShell></ProtectedRoute>;
+    return <ProtectedRoute roles={["admin"]}><AppShell section="admin"><LoadingSkeleton variant="hero" count={1} /></AppShell></ProtectedRoute>;
   }
 
   return (
@@ -89,7 +86,7 @@ function Page() {
           {/* KPI cards */}
           <motion.div variants={fadeUp} initial="hidden" animate="show" transition={{ delay: 0.05 }}>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              <StatCard icon={<Coins size={18} className="text-coin" />} title="Всего выдано монет" value={<span className="text-coin">{totalAwarded.toLocaleString("ru-RU")}</span>} />
+              <StatCard icon={<Coins size={18} className="text-coin" />} title="Всего выдано монет" value={<span className="text-coin">{formatNumber(totalAwarded)}</span>} />
               <StatCard icon={<Users size={18} className="text-primary" />} title="Активных студентов" value={activeStudents.toString()} />
               <StatCard icon={<Package size={18} className="text-status-new" />} title="Активных заказов" value={activeOrders.toString()} />
               <StatCard icon={<ShoppingBag size={18} className="text-earn" />} title="Товаров в магазине" value={activeProducts.toString()} />
@@ -158,7 +155,7 @@ function Page() {
                           <Badge variant={txVariant[t.type]}>{txLabel[t.type]}</Badge>
                           <span className="font-mono tabular-nums text-text-primary">{t.type === "earn" ? "+" : "-"}{t.amount}</span>
                           <span className="text-text-muted truncate flex-1">{t.reason}</span>
-                          <span className="text-text-muted text-xs shrink-0">{u ? `${u.first_name} ${u.last_name}` : "—"} · {formatDate(t.created_at)}</span>
+                          <span className="text-text-muted text-xs shrink-0">{u ? `${u.first_name} ${u.last_name}` : "—"} · {formatRelativeTime(t.created_at)}</span>
                         </div>
                       );
                     })}
@@ -177,7 +174,7 @@ function Page() {
                         <Badge variant={statusVariant[o.status]}>{statusLabel[o.status]}</Badge>
                         <span className="text-text-primary truncate flex-1">{o.product.name}</span>
                         <CoinBadge amount={o.price} size="sm" />
-                        <span className="text-text-muted text-xs shrink-0">{formatDate(o.created_at)}</span>
+                        <span className="text-text-muted text-xs shrink-0">{formatRelativeTime(o.created_at)}</span>
                       </div>
                     ))}
                   </div>

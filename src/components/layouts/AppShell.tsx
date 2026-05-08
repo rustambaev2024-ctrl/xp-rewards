@@ -57,7 +57,7 @@ export function AppShell({ section, children }: { section: "student" | "admin"; 
 
   const handleLogout = () => {
     logout();
-    navigate({ to: "/login" });
+    navigate({ to: "/login", replace: true });
   };
 
   return (
@@ -137,19 +137,33 @@ export function AppShell({ section, children }: { section: "student" | "admin"; 
 
         {/* Mobile bottom nav (student only) */}
         {section === "student" && (
-          <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 grid grid-cols-5 border-t border-border bg-bg-secondary">
-            {[studentNav[0], studentNav[2], studentNav[3], studentNav[5], studentNav[7]].map((it) => {
+          <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 grid grid-cols-5 border-t border-border bg-bg-secondary/95 backdrop-blur-sm">
+            {[
+              studentNav[0], // Dashboard
+              studentNav[2], // Store
+              studentNav[1], // Coins
+              studentNav[3], // Orders
+              studentNav[7], // Profile
+            ].map((it) => {
               const active = path === it.to;
+              const isNotif = it.to === "/student/notifications";
               return (
                 <Link
                   key={it.to}
                   to={it.to}
                   className={cn(
-                    "flex flex-col items-center gap-0.5 py-2 text-[10px]",
-                    active ? "text-primary" : "text-text-secondary"
+                    "relative flex flex-col items-center gap-0.5 py-2 text-[10px] transition-colors",
+                    active ? "text-coin" : "text-text-secondary"
                   )}
                 >
-                  <it.icon size={20} />
+                  <div className="relative">
+                    <it.icon size={20} />
+                    {isNotif && unreadCount > 0 && (
+                      <span className="absolute -top-1 -right-1 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-spend px-0.5 text-[8px] font-bold text-white">
+                        {unreadCount > 9 ? "9+" : unreadCount}
+                      </span>
+                    )}
+                  </div>
                   <span>{it.label}</span>
                 </Link>
               );

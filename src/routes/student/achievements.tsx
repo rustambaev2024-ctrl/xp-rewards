@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import { formatRelativeTime } from "@/lib/utils";
 import { useEffect, useState, useMemo } from "react";
 import { Lock } from "lucide-react";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
@@ -22,10 +23,6 @@ const conditionLabel: Record<string, (v: number) => string> = {
   purchases_count: (v) => `Соверши ${v} покупок`,
   level_reached: (v) => `Достигни Level ${v}`,
 };
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" });
-}
 
 function Page() {
   const { user } = useAuth();
@@ -78,7 +75,7 @@ function Page() {
                         <span className="text-5xl">{a.icon}</span>
                         <p className="text-sm font-semibold text-text-primary">{a.name}</p>
                         <p className="text-xs text-text-muted">{a.description}</p>
-                        <Badge variant="earn" className="mt-1">Получено {a.unlocked_at ? formatDate(a.unlocked_at) : ""}</Badge>
+                        <Badge variant="earn" className="mt-1">Получено {a.unlocked_at ? formatRelativeTime(a.unlocked_at) : ""}</Badge>
                       </CardContent>
                     </Card>
                   </motion.div>

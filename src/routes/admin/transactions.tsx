@@ -13,6 +13,7 @@ import { EmptyState } from "@/components/shared/EmptyState";
 import { LoadingSkeleton } from "@/components/shared/LoadingSkeleton";
 import { getUsers, getAdminTransactions } from "@/api/admin";
 import type { Transaction, User, TxType } from "@/types";
+import { formatNumber, formatRelativeTime } from "@/lib/utils";
 
 export const Route = createFileRoute("/admin/transactions")({
   component: Page,
@@ -24,10 +25,6 @@ const txLabel: Record<TxType, string> = { earn: "Начисление", spend: "
 type TypeFilter = "all" | TxType;
 type PeriodFilter = "7d" | "30d" | "all";
 const PAGE_SIZE = 20;
-
-function formatDateTime(iso: string) {
-  return new Date(iso).toLocaleDateString("ru-RU", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
-}
 
 function Page() {
   const [users, setUsers] = useState<User[]>([]);
@@ -73,7 +70,7 @@ function Page() {
   const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   if (loading) {
-    return <ProtectedRoute roles={["admin"]}><AppShell section="admin"><LoadingSkeleton variant="card" count={3} /></AppShell></ProtectedRoute>;
+    return <ProtectedRoute roles={["admin"]}><AppShell section="admin"><LoadingSkeleton variant="table-row" count={5} columns={7} /></AppShell></ProtectedRoute>;
   }
 
   return (
@@ -136,8 +133,8 @@ function Page() {
                               <td className="p-3 font-mono tabular-nums"><span className={t.type === "earn" ? "text-earn" : "text-spend"}>{t.type === "earn" ? "+" : "-"}{t.amount}</span></td>
                               <td className="p-3 text-text-primary truncate max-w-[150px]">{t.reason}</td>
                               <td className="p-3 text-text-muted truncate max-w-[120px]">{t.comment ?? "—"}</td>
-                              <td className="p-3 font-mono tabular-nums text-text-secondary">{t.balance_after.toLocaleString("ru-RU")}</td>
-                              <td className="p-3 text-text-muted text-xs whitespace-nowrap">{formatDateTime(t.created_at)}</td>
+                              <td className="p-3 font-mono tabular-nums text-text-secondary">{formatNumber(t.balance_after)}</td>
+                              <td className="p-3 text-text-muted text-xs whitespace-nowrap">{formatRelativeTime(t.created_at)}</td>
                             </tr>
                           );
                         })}

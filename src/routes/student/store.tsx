@@ -149,7 +149,7 @@ function Page() {
     return (
       <ProtectedRoute roles={["student"]}>
         <AppShell section="student">
-          <LoadingSkeleton variant="card" count={6} />
+          <LoadingSkeleton variant="store-grid" count={8} />
         </AppShell>
       </ProtectedRoute>
     );

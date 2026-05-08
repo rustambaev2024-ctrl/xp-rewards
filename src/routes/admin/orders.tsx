@@ -13,6 +13,7 @@ import { LoadingSkeleton } from "@/components/shared/LoadingSkeleton";
 import { toast } from "@/components/ui/Toast";
 import { getAdminOrders, updateOrderStatus, getUsers } from "@/api/admin";
 import type { Order, OrderStatus, User } from "@/types";
+import { formatRelativeTime } from "@/lib/utils";
 
 export const Route = createFileRoute("/admin/orders")({
   component: Page,
@@ -62,7 +63,7 @@ function Page() {
   };
 
   if (loading) {
-    return <ProtectedRoute roles={["admin"]}><AppShell section="admin"><LoadingSkeleton variant="card" count={4} /></AppShell></ProtectedRoute>;
+    return <ProtectedRoute roles={["admin"]}><AppShell section="admin"><LoadingSkeleton variant="podium" count={1} /></AppShell></ProtectedRoute>;
   }
 
   return (
@@ -108,7 +109,7 @@ function Page() {
                               </div>
                               <div className="flex items-center justify-between">
                                 <CoinBadge amount={order.price} size="sm" />
-                                <span className="text-[10px] text-text-muted">{new Date(order.created_at).toLocaleDateString("ru-RU", { day: "numeric", month: "short" })}</span>
+                                <span className="text-[10px] text-text-muted">{formatRelativeTime(order.created_at)}</span>
                               </div>
                               <div className="flex items-center gap-1 mt-2 pt-2 border-t border-border">
                                 {statusIdx > 0 && (

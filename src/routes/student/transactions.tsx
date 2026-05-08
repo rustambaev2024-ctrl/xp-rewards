@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import { formatRelativeTime, formatNumber } from "@/lib/utils";
 import { useEffect, useState, useMemo } from "react";
-import { ArrowDownLeft, ArrowUpRight, AlertTriangle } from "lucide-react";
+import { ArrowDownLeft, ArrowUpRight, TriangleAlert as AlertTriangle } from "lucide-react";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { AppShell } from "@/components/layouts/AppShell";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -55,15 +56,6 @@ const periodOptions: { value: PeriodFilter; label: string }[] = [
   { value: "all", label: "Всё время" },
 ];
 
-function formatDateTime(iso: string) {
-  return new Date(iso).toLocaleDateString("ru-RU", {
-    day: "numeric",
-    month: "short",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
-
 const PAGE_SIZE = 10;
 
 function Page() {
@@ -108,7 +100,7 @@ function Page() {
     return (
       <ProtectedRoute roles={["student"]}>
         <AppShell section="student">
-          <LoadingSkeleton variant="card" count={3} />
+          <LoadingSkeleton variant="table-row" count={5} columns={5} />
         </AppShell>
       </ProtectedRoute>
     );
@@ -196,7 +188,7 @@ function Page() {
                           {t.comment && (
                             <p className="text-xs text-text-muted mt-0.5 truncate">{t.comment}</p>
                           )}
-                          <p className="text-xs text-text-muted mt-0.5">{formatDateTime(t.created_at)}</p>
+                          <p className="text-xs text-text-muted mt-0.5">{formatRelativeTime(t.created_at)}</p>
                         </div>
                         <div className="text-right shrink-0">
                           <p
@@ -207,7 +199,7 @@ function Page() {
                             {t.type === "earn" ? "+" : "-"}{t.amount}
                           </p>
                           <p className="text-xs text-text-muted tabular-nums">
-                            {t.balance_after.toLocaleString("ru-RU")}
+                            {formatNumber(t.balance_after)}
                           </p>
                         </div>
                       </div>

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import { formatRelativeTime } from "@/lib/utils";
 import { useEffect, useState, useMemo } from "react";
 import { Package } from "lucide-react";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
@@ -45,10 +46,6 @@ const statusLabel: Record<OrderStatus, string> = {
   cancelled: "Отменён",
 };
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("ru-RU", { day: "numeric", month: "short", year: "numeric" });
-}
-
 function Page() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
@@ -69,7 +66,7 @@ function Page() {
     return (
       <ProtectedRoute roles={["student"]}>
         <AppShell section="student">
-          <LoadingSkeleton variant="card" count={3} />
+          <LoadingSkeleton variant="store-grid" count={3} />
         </AppShell>
       </ProtectedRoute>
     );
@@ -144,7 +141,7 @@ function Page() {
                             {order.product.name}
                           </p>
                           <p className="text-xs text-text-muted mt-0.5">
-                            {formatDate(order.created_at)}
+                            {formatRelativeTime(order.created_at)}
                           </p>
                         </div>
                       </div>

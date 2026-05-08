@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import { formatRelativeTime, formatNumber } from "@/lib/utils";
 import { useEffect, useRef, useState } from "react";
 import { ArrowDownLeft, ArrowUpRight, TriangleAlert as AlertTriangle, TrendingUp, Wallet, Hash } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from "recharts";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { AppShell } from "@/components/layouts/AppShell";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -36,14 +37,6 @@ const txVariant: Record<TxType, "earn" | "spend" | "penalty"> = {
   penalty: "penalty",
 };
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("ru-RU", { day: "numeric", month: "short" });
-}
-
-function formatDateTime(iso: string) {
-  return new Date(iso).toLocaleDateString("ru-RU", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
-}
-
 function AnimatedNumber({ value }: { value: number }) {
   const [display, setDisplay] = useState(0);
   const ref = useRef<ReturnType<typeof requestAnimationFrame>>(0);
@@ -68,7 +61,7 @@ function AnimatedNumber({ value }: { value: number }) {
     return () => cancelAnimationFrame(ref.current);
   }, [value]);
 
-  return <>{display.toLocaleString("ru-RU")}</>;
+  return <>{formatNumber(display)}</>;
 }
 
 const PAGE_SIZE = 10;
@@ -118,7 +111,7 @@ function Page() {
     return (
       <ProtectedRoute roles={["student"]}>
         <AppShell section="student">
-          <LoadingSkeleton variant="card" count={4} />
+          <LoadingSkeleton variant="chart" count={1} />
         </AppShell>
       </ProtectedRoute>
     );
@@ -148,12 +141,12 @@ function Page() {
               <StatCard
                 icon={<TrendingUp size={18} className="text-earn" />}
                 title="Всего заработано"
-                value={<span className="text-earn">{totalEarned.toLocaleString("ru-RU")}</span>}
+                value={<span className="text-earn">{formatNumber(totalEarned)}</span>}
               />
               <StatCard
                 icon={<ArrowUpRight size={18} className="text-spend" />}
                 title="Всего потрачено"
-                value={<span className="text-spend">{totalSpent.toLocaleString("ru-RU")}</span>}
+                value={<span className="text-spend">{formatNumber(totalSpent)}</span>}
               />
               <StatCard
                 icon={<Hash size={18} className="text-text-secondary" />}
@@ -172,7 +165,13 @@ function Page() {
               <CardContent>
                 <div className="h-64 w-full">
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={chartData}>
+                    <AreaChart data={chartData}>
+                      <defs>
+                        <linearGradient id="coinGradient" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="var(--color-coin)" stopOpacity={0.3} />
+                          <stop offset="100%" stopColor="var(--color-coin)" stopOpacity={0} />
+                        </linearGradient>
+                      </defs>
                       <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" opacity={0.4} />
                       <XAxis
                         dataKey="date"
@@ -196,16 +195,18 @@ function Page() {
                           fontSize: 13,
                         }}
                         labelStyle={{ color: "var(--color-text-secondary)" }}
+                        formatter={(value: number) => [formatNumber(value), "Баланс"]}
                       />
-                      <Line
+                      <Area
                         type="monotone"
                         dataKey="balance"
                         stroke="var(--color-coin)"
                         strokeWidth={2.5}
+                        fill="url(#coinGradient)"
                         dot={false}
-                        activeDot={{ r: 5, fill: "var(--color-coin)" }}
+                        activeDot={{ r: 5, fill: "var(--color-coin)", strokeWidth: 2, stroke: "var(--bg-primary)" }}
                       />
-                    </LineChart>
+                    </AreaChart>
                   </ResponsiveContainer>
                 </div>
               </CardContent>
@@ -234,7 +235,7 @@ function Page() {
                       {paginated.map((t) => (
                         <tr key={t.id} className="group hover:bg-bg-elevated/50 transition-colors">
                           <td className="py-3 pr-4 text-text-secondary whitespace-nowrap">
-                            {formatDateTime(t.created_at)}
+                            {formatRelativeTime(t.created_at)}
                           </td>
                           <td className="py-3 pr-4">
                             <Badge variant={txVariant[t.type]} className="capitalize">
@@ -250,7 +251,7 @@ function Page() {
                             {t.reason}
                           </td>
                           <td className="py-3 text-right font-mono tabular-nums text-text-secondary">
-                            {t.balance_after.toLocaleString("ru-RU")}
+                            {formatNumber(t.balance_after)}
                           </td>
                         </tr>
                       ))}

@@ -85,7 +85,7 @@ function Page() {
   }, [filteredTx]);
 
   if (loading) {
-    return <ProtectedRoute roles={["admin"]}><AppShell section="admin"><LoadingSkeleton variant="card" count={4} /></AppShell></ProtectedRoute>;
+    return <ProtectedRoute roles={["admin"]}><AppShell section="admin"><LoadingSkeleton variant="chart" count={4} /></AppShell></ProtectedRoute>;
   }
 
   const tooltipStyle = { backgroundColor: "var(--bg-elevated)", border: "1px solid var(--color-border)", borderRadius: 12, color: "var(--color-text-primary)", fontSize: 13 };

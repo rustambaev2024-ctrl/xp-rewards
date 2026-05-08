@@ -87,7 +87,7 @@ function Page() {
   };
 
   if (loading) {
-    return <ProtectedRoute roles={["admin"]}><AppShell section="admin"><LoadingSkeleton variant="card" count={3} /></AppShell></ProtectedRoute>;
+    return <ProtectedRoute roles={["admin"]}><AppShell section="admin"><LoadingSkeleton variant="table-row" count={5} columns={7} /></AppShell></ProtectedRoute>;
   }
 
   return (
