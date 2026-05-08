@@ -5,7 +5,8 @@ import { mockOrders } from "@/mock/orders";
 import { mockAchievements } from "@/mock/achievements";
 import { mockLeaderboard } from "@/mock/leaderboard";
 import { mockNotifications } from "@/mock/notifications";
-import type { Achievement, LeaderboardEntry, Notification, Order, Transaction, User } from "@/types";
+import { mockSettings } from "@/mock/settings";
+import type { Achievement, LeaderboardEntry, Notification, Order, Settings, Transaction, User } from "@/types";
 
 export async function getMe(): Promise<User> {
   if (USE_MOCK) {
@@ -53,6 +54,14 @@ export async function getNotifications(): Promise<Notification[]> {
   if (USE_MOCK) {
     await delay();
     return mockNotifications;
+  }
+  throw new Error("Real API not implemented");
+}
+
+export async function getSettings(): Promise<Settings> {
+  if (USE_MOCK) {
+    await delay(200);
+    return mockSettings;
   }
   throw new Error("Real API not implemented");
 }

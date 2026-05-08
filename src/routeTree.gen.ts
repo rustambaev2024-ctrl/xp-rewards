@@ -32,6 +32,7 @@ import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
 import { Route as AdminCoinsRouteImport } from './routes/admin/coins'
 import { Route as AdminCategoriesRouteImport } from './routes/admin/categories'
 import { Route as AdminAchievementsRouteImport } from './routes/admin/achievements'
+import { Route as StudentStoreIdRouteImport } from './routes/student/store.$id'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -148,6 +149,11 @@ const AdminAchievementsRoute = AdminAchievementsRouteImport.update({
   path: '/admin/achievements',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StudentStoreIdRoute = StudentStoreIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => StudentStoreRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -171,8 +177,9 @@ export interface FileRoutesByFullPath {
   '/student/notifications': typeof StudentNotificationsRoute
   '/student/orders': typeof StudentOrdersRoute
   '/student/profile': typeof StudentProfileRoute
-  '/student/store': typeof StudentStoreRoute
+  '/student/store': typeof StudentStoreRouteWithChildren
   '/student/transactions': typeof StudentTransactionsRoute
+  '/student/store/$id': typeof StudentStoreIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -196,8 +203,9 @@ export interface FileRoutesByTo {
   '/student/notifications': typeof StudentNotificationsRoute
   '/student/orders': typeof StudentOrdersRoute
   '/student/profile': typeof StudentProfileRoute
-  '/student/store': typeof StudentStoreRoute
+  '/student/store': typeof StudentStoreRouteWithChildren
   '/student/transactions': typeof StudentTransactionsRoute
+  '/student/store/$id': typeof StudentStoreIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -222,8 +230,9 @@ export interface FileRoutesById {
   '/student/notifications': typeof StudentNotificationsRoute
   '/student/orders': typeof StudentOrdersRoute
   '/student/profile': typeof StudentProfileRoute
-  '/student/store': typeof StudentStoreRoute
+  '/student/store': typeof StudentStoreRouteWithChildren
   '/student/transactions': typeof StudentTransactionsRoute
+  '/student/store/$id': typeof StudentStoreIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -251,6 +260,7 @@ export interface FileRouteTypes {
     | '/student/profile'
     | '/student/store'
     | '/student/transactions'
+    | '/student/store/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -276,6 +286,7 @@ export interface FileRouteTypes {
     | '/student/profile'
     | '/student/store'
     | '/student/transactions'
+    | '/student/store/$id'
   id:
     | '__root__'
     | '/'
@@ -301,6 +312,7 @@ export interface FileRouteTypes {
     | '/student/profile'
     | '/student/store'
     | '/student/transactions'
+    | '/student/store/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -325,7 +337,7 @@ export interface RootRouteChildren {
   StudentNotificationsRoute: typeof StudentNotificationsRoute
   StudentOrdersRoute: typeof StudentOrdersRoute
   StudentProfileRoute: typeof StudentProfileRoute
-  StudentStoreRoute: typeof StudentStoreRoute
+  StudentStoreRoute: typeof StudentStoreRouteWithChildren
   StudentTransactionsRoute: typeof StudentTransactionsRoute
 }
 
@@ -492,8 +504,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAchievementsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/student/store/$id': {
+      id: '/student/store/$id'
+      path: '/$id'
+      fullPath: '/student/store/$id'
+      preLoaderRoute: typeof StudentStoreIdRouteImport
+      parentRoute: typeof StudentStoreRoute
+    }
   }
 }
+
+interface StudentStoreRouteChildren {
+  StudentStoreIdRoute: typeof StudentStoreIdRoute
+}
+
+const StudentStoreRouteChildren: StudentStoreRouteChildren = {
+  StudentStoreIdRoute: StudentStoreIdRoute,
+}
+
+const StudentStoreRouteWithChildren = StudentStoreRoute._addFileChildren(
+  StudentStoreRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -517,7 +548,7 @@ const rootRouteChildren: RootRouteChildren = {
   StudentNotificationsRoute: StudentNotificationsRoute,
   StudentOrdersRoute: StudentOrdersRoute,
   StudentProfileRoute: StudentProfileRoute,
-  StudentStoreRoute: StudentStoreRoute,
+  StudentStoreRoute: StudentStoreRouteWithChildren,
   StudentTransactionsRoute: StudentTransactionsRoute,
 }
 export const routeTree = rootRouteImport

@@ -14,6 +14,7 @@ interface AuthContextValue {
   hasRole: (role: Role | Role[]) => boolean;
   login: (username: string, password: string) => Promise<User>;
   logout: () => void;
+  updateUser: (update: Partial<User>) => void;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -55,6 +56,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [user]
   );
 
+  const updateUser = useCallback((update: Partial<User>) => {
+    setUser((prev) => {
+      if (!prev) return prev;
+      const next = { ...prev, ...update };
+      localStorage.setItem("kt_user", JSON.stringify(next));
+      return next;
+    });
+  }, []);
+
   const value = useMemo<AuthContextValue>(
     () => ({
       user,
@@ -67,8 +77,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       hasRole,
       login,
       logout,
+      updateUser,
     }),
-    [user, token, loading, hasRole, login, logout]
+    [user, token, loading, hasRole, login, logout, updateUser]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
